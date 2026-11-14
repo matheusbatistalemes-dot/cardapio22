@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de privacidade — Sistema de Pedidos</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/legal.css">
+</head>
+<body>
+  <main class="legal-page">
+    <p class="legal-draft"><strong>Rascunho para revisão de advogado.</strong> Esta política não está pronta para publicação: os dados da empresa e as configurações de produção ainda precisam ser confirmados.</p>
+    <h1>Política de privacidade</h1>
+    <p><strong>Controlador:</strong> [RAZÃO SOCIAL A INFORMAR], CNPJ [A INFORMAR], endereço [A INFORMAR]. Canal de privacidade e atendimento: [A INFORMAR].</p>
+    <h2>Escopo e papéis</h2>
+    <p>O Sistema de Pedidos fornece ferramentas para lojistas criarem cardápios e gerenciarem configurações de lojas. Para cadastro, autenticação e operação do painel, o operador do Sistema trata dados da conta e da loja. Nas lojas de clientes, o lojista que recebe os pedidos decide como usar os dados do consumidor e atua como controlador desses dados. O papel contratual do operador do Sistema em cada fluxo deve ser validado e formalizado antes da publicação desta política.</p>
+    <h2>Dados tratados e finalidades</h2>
+    <ul>
+      <li>Conta: UID, e-mail, nome e foto associados à autenticação por e-mail ou Google, para criar e proteger a conta. Credenciais são tratadas pelo Firebase Authentication; o código não copia a senha para o documento de perfil.</li>
+      <li>Loja: configurações, cardápio, contatos e imagens enviados pelo lojista, para editar e publicar a loja.</li>
+      <li>Pedido: no modelo de cardápio, dados digitados pelo consumidor são usados no dispositivo para compor o pedido e, quando o consumidor aciona o link, são incluídos na mensagem destinada ao WhatsApp da loja. O operador do Sistema não recebe o conteúdo do pedido pelo código do cardápio estático examinado.</li>
+      <li>Dados técnicos: provedores de hospedagem, autenticação e infraestrutura podem registrar dados de conexão e operação. Conteúdo, região, acesso e retenção precisam ser confirmados nas configurações e contratos dos fornecedores.</li>
+    </ul>
+    <h2>Compartilhamento e fornecedores</h2>
+    <p>O código utiliza Firebase Authentication, Firestore e Cloud Storage, serviços do Google; autenticação Google quando escolhida pelo usuário; Cloudflare CDNJS para bibliotecas técnicas de exportação e QR Code no painel; e links do WhatsApp para envio voluntário de pedidos. As fontes e imagens remotas de apresentação foram removidas do carregamento desta versão. Fornecedor, categorias de dados, localização e retenção devem ser conferidos nos painéis e contratos antes da publicação.</p>
+    <h2>Armazenamento e retenção</h2>
+    <p>Perfis e dados de lojas são gravados no Firebase. Imagens são enviadas ao Cloud Storage. Arquivos de imagem podem permanecer após a exclusão de uma loja para não quebrar sites já exportados. Prazos de retenção de contas, logs, backups e dados de fornecedores ainda precisam ser definidos e documentados; esta política não promete exclusão de backups ou de sistemas de terceiros antes dessa confirmação.</p>
+    <h2>Direitos e solicitações</h2>
+    <p>Para solicitar confirmação, acesso, correção, portabilidade, informação sobre compartilhamentos ou eliminação quando cabível, contate: [CANAL DE PRIVACIDADE A INFORMAR]. O responsável precisa disponibilizar um canal monitorado e um procedimento para autenticar pedidos e responder.</p>
+    <h2>Segurança, transferências e alterações</h2>
+    <p>O serviço usa controles de acesso configurados no Firebase. A configuração efetiva em produção, medidas de segurança, países de tratamento e mecanismos de transferência internacional ainda devem ser confirmados. A versão final deve informar a data de vigência e como mudanças serão comunicadas.</p>
+    <p><a href="termos.html">Termos de uso</a> · <a href="cancelamento.html">Cancelamento e arrependimento</a> · <a href="cookies.html">Cookies</a></p>
+  </main>
+  <script src="js/legal-ui.js"></script>
+</body>
+</html>

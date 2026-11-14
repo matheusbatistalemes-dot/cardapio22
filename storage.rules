@@ -1,0 +1,41 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function hasActivePlan(uid) {
+      let profile = firestore.get(/databases/(default)/documents/users/$(uid)).data;
+      return profile.hasPlan == true
+        && profile.accountBlocked == false
+        && profile.planExpiresAt is timestamp
+        && request.time < profile.planExpiresAt + duration.value(5, 'd');
+    }
+
+    function ownsStore(uid, slug) {
+      return firestore.exists(/databases/(default)/documents/lojas/$(slug))
+        && firestore.get(/databases/(default)/documents/lojas/$(slug)).data.ownerUid == uid;
+    }
+
+    function publicStore(uid, slug) {
+      return firestore.exists(/databases/(default)/documents/cardapios/$(slug))
+        && firestore.get(/databases/(default)/documents/cardapios/$(slug)).data.status == 'ativo'
+        && ownsStore(uid, slug);
+    }
+
+    match /users/{userId}/lojas/{slug}/{fileName=**} {
+      allow get: if (signedInAs(userId) && ownsStore(userId, slug)) || publicStore(userId, slug);
+      allow create, update: if signedInAs(userId)
+        && ownsStore(userId, slug)
+        && hasActivePlan(userId)
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp)');
+      // A exclusão de arquivos fica restrita ao backend para não quebrar ZIPs já publicados.
+    }
+
+    match /{object=**} {
+      allow read, write: if false;
+    }
+  }
+}

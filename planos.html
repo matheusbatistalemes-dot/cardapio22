@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos - Sistema de Pedidos</title>
+    <link rel="stylesheet" href="css/app.css">
+    <!-- AOS para animações de entrada -->
+    <link rel="stylesheet" href="css/legal.css">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --bg-color: #fbfcfc;
+            --text-main: #1a1a1a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 90%;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 4rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .plans-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .plan-card {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-bottom-left-radius: 12px;
+            border-top-right-radius: 24px;
+            text-transform: uppercase;
+        }
+
+        .plan-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-box {
+            margin-bottom: 2rem;
+        }
+
+        .old-price {
+            display: block;
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .current-price {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+
+        .current-price span {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .features-list {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2.5rem 0;
+            flex-grow: 1;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 1rem;
+            color: #475569;
+            font-size: 1rem;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .btn-subscribe {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .btn-subscribe:hover {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+        }
+
+        .footer-note {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header" data-aos="fade-down">
+            <h1>Preços Simples e Transparentes</h1>
+            <p>Tudo o que você precisa para gerenciar seus pedidos de forma profissional.</p>
+        </div>
+
+        <div class="plans-grid">
+            <!-- APENAS O PLANO BASIC -->
+            <div class="plan-card" data-aos="fade-up">
+                <div class="popular-badge">Recomendado</div>
+                <div class="plan-name">Plano Basic</div>
+                <div class="price-box">
+                    <span class="old-price">R$ 95,00</span>
+                    <div class="current-price">R$ 45<span>/mês</span></div>
+                </div>
+                <ul class="features-list">
+                    <li><strong style="font-size: 1.1rem;">Acesso Completo ao Admin</strong></li>
+                    <li>Lojas Ilimitadas</li>
+                    <li>Exportação Automática (.zip)</li>
+                    <li>Conversão WebP de Imagens</li>
+                    <li>Gerador de QR Code</li>
+                    <li>Suporte Prioritário via WhatsApp</li>
+                </ul>
+                <button id="btnSubscribe" class="btn-subscribe">Assinar Agora</button>
+                <p class="footer-note">Tudo que você precisa para crescer seu negócio</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS para animações e lógica -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script src="js/auth-service.js"></script>
+    <script>
+        document.getElementById('btnSubscribe').addEventListener('click', () => {
+            AuthService.handleSubscription();
+        });
+    </script>
+    <script src="js/legal-ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function hasActivePlan(uid) {
+      let profile = get(/databases/$(database)/documents/users/$(uid)).data;
+      return profile.hasPlan == true
+        && profile.accountBlocked == false
+        && profile.planExpiresAt is timestamp
+        && request.time < profile.planExpiresAt + duration.value(5, 'd');
+    }
+
+    function ownsStore(slug) {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/lojas/$(slug))
+        && get(/databases/$(database)/documents/lojas/$(slug)).data.ownerUid == request.auth.uid;
+    }
+
+    match /users/{userId} {
+      allow get: if signedInAs(userId);
+      allow list: if false;
+      allow create: if signedInAs(userId)
+        && request.resource.data.keys().hasOnly([
+          'uid', 'email', 'displayName', 'photoURL', 'hasPlan',
+          'planExpiresAt', 'accountBlocked', 'createdAt'
+        ])
+        && request.resource.data.uid == userId
+        && request.resource.data.hasPlan == false
+        && request.resource.data.planExpiresAt == null
+        && request.resource.data.accountBlocked == false;
+      // Plano, bloqueio e expiração só podem ser alterados por backend confiável.
+      allow update, delete: if false;
+    }
+
+    // Dados privados usados pelo editor. Consultas devem filtrar por ownerUid.
+    match /lojas/{slug} {
+      allow get: if request.auth != null
+        && hasActivePlan(request.auth.uid)
+        && (!exists(/databases/$(database)/documents/lojas/$(slug))
+          || resource.data.ownerUid == request.auth.uid);
+      allow list: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid
+        && hasActivePlan(request.auth.uid);
+      allow create: if request.auth != null
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.slug == slug
+        && hasActivePlan(request.auth.uid);
+      allow update: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.slug == slug
+        && hasActivePlan(request.auth.uid);
+      // Permite ao dono remover dados mesmo quando o plano expirou.
+      allow delete: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // Configuração pública mínima consumida pelo cardápio. Sem listagem pública.
+    match /cardapios/{slug} {
+      allow get: if resource.data.status == 'ativo';
+      allow list: if false;
+      allow create: if ownsStore(slug)
+        && hasActivePlan(request.auth.uid)
+        && request.resource.data.slug == slug
+        && request.resource.data.status == 'ativo'
+        && request.resource.data.config is map;
+      allow update: if ownsStore(slug)
+        && hasActivePlan(request.auth.uid)
+        && request.resource.data.slug == slug
+        && request.resource.data.status == 'ativo'
+        && request.resource.data.config is map;
+      allow delete: if ownsStore(slug);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

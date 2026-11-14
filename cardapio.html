@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F7F4F0">
+
+  <!-- Título genérico - será alterado dinamicamente pelo loader -->
+  <title>Carregando Cardápio...</title>
+
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/legal.css">
+</head>
+<body>
+  <div id="app" class="app"></div>
+  <noscript><div style="padding:48px 20px;text-align:center">Ative o JavaScript para ver o cardápio.</div></noscript>
+
+  <!-- 1. Firebase SDKs (Essenciais para buscar os dados da loja) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-init.js"></script>
+  <!-- O cardápio é público e não inicializa autenticação de lojista. -->
+  <script src="js/loja-loader.js"></script>
+  <script src="js/legal-ui.js"></script>
+</body>
+</html>
